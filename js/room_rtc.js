@@ -48,8 +48,10 @@ let joinRoomInit = async () => {
 
   channel.on("MemberJoined", handleMemberJoined);
   channel.on("MemberLeft", handleMemberLeft);
+  channel.on("ChannelMessage", handleChannelMessage);
 
   getMembers();
+  addBotMessageToDom(`Welcome to the meet ${displayName}`);
 
   client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
   await client.join(APP_ID, roomId, token, uid);
@@ -189,7 +191,7 @@ let toggleScreen = async (e) => {
 
     screenButton.classList.add("active");
     cameraButton.classList.remove("active");
-    cameraButton.style.display = "block";
+    cameraButton.style.display = "none";
 
     localScreenTracks = await AgoraRTC.createScreenVideoTrack();
 
